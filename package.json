@@ -1,0 +1,25 @@
+{
+  "name": "pl-predictor",
+  "version": "1.0.0",
+  "description": "backend server for predictor app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "author": "sosnowski",
+  "license": "ISC",
+  "dependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/express-session": "^1.17.4",
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "fs": "0.0.1-security",
+    "nodemon": "^2.0.9",
+    "pg": "^8.6.0",
+    "sequelize": "^6.6.4",
+    "sequelize-cli": "^6.2.0"
+  }
+}
