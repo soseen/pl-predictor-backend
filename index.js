@@ -155,19 +155,63 @@ app.post('/gameweek', async (req, res) => {
 
 app.post('/prediction', async (req, res) => {
     try {
-        const prediction = await db.MatchPrediction.create({
-            matchId: req.body.id,
-            GameweekPredictionId: req.body.GameweekPredictionId,
-            homeSideScore: req.body.prediction.homeTeamScore,
-            awaySideScore: req.body.prediction.awayTeamScore,
-            isResolved: false,
-            isCorrectScore: false,
-            isExactScore: false
+        const prediction = await db.MatchPrediction.findAll({
+            where: {
+                matchId: req.body.id,
+                GameweekPredictionId: req.body.GameweekPredictionId
+            }
         })
-        res.send({prediction: prediction})
+        if (prediction.length > 0) {
+            res.send({prediction: prediction})
+        } else {
+            const newPrediction = await db.MatchPrediction.create({
+                matchId: req.body.id,
+                GameweekPredictionId: req.body.GameweekPredictionId,
+                homeTeamScore: req.body.prediction.homeTeamScore,
+                awayTeamScore: req.body.prediction.awayTeamScore,
+                isResolved: false,
+                isCorrectScore: false,
+                isExactScore: false
+            })
+            res.send({prediction: newPrediction})
+        }
+        
+
     } catch (error) {
         console.log(error)
         res.send({message: error})
+    }
+})
+
+app.put('/prediction', async (req, res) => {
+    try {
+        const prediction = db.MatchPrediction.update({
+            where: {
+                matchId: req.body.id,
+                GameweekPredictionId: req.body.GameweekPredictionId,
+            },
+        })
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+app.post('/gameweekPredictions', async(req, res) => {
+    try {
+        const gameweekPredictions = await db.GameweekPrediction.findAll({
+            where: {
+                gameweek: req.body.gameweek
+            },
+            include: [
+                {
+                    model: db.MatchPrediction,
+                    as: 'matchPredictions',
+                }
+            ],
+        })
+        res.send({gameweekPredictions: gameweekPredictions})
+    } catch (error) {
+        console.log(error)
     }
 })
 

@@ -5,19 +5,19 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             unique: false
         },
-        homeSideScore: {
+        homeTeamScore: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: true,
             unique: false
         },
-        awaySideScore: {
+        awayTeamScore: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: true,
             unique: false
         },
         isResolved: {
             type: DataTypes.BOOLEAN,
-            allowNull: false,
+            allowNull: true,
             unique: false
         },
         isCorrectScore: {
