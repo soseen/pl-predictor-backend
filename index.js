@@ -185,16 +185,46 @@ app.post('/prediction', async (req, res) => {
 
 app.put('/prediction', async (req, res) => {
     try {
-        const prediction = db.MatchPrediction.update({
+        const predictionToUpdate = await db.MatchPrediction.findOne({
             where: {
-                matchId: req.body.id,
+                id: req.body.id,
+                matchId: req.body.matchId,
                 GameweekPredictionId: req.body.GameweekPredictionId,
-            },
+            }
         })
+        console.log(req.body);
+        if (predictionToUpdate) {
+            const prediction = await predictionToUpdate.update({
+                isExactScore: req.body.isExactScore,
+                isCorrectScore: req.body.isCorrectScore,
+                isResolved: req.body.isResolved,
+            })
+            res.send({prediction: prediction})
+        }
     } catch (error) {
         console.log(error);
     }
 })
+
+app.put('/user', async (req, res) => {
+    try {
+        const userToUpdate = await db.User.findOne({
+            where: {
+                id: req.body.UserId
+            }
+        })
+        if (userToUpdate) {
+            const user = await userToUpdate.update({
+                points: userToUpdate.points + req.body.points
+            })
+            res.send({user: user})
+        }
+
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 
 app.post('/gameweekPredictions', async(req, res) => {
     try {
