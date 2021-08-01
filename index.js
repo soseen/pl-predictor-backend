@@ -167,6 +167,8 @@ app.post('/prediction', async (req, res) => {
             const newPrediction = await db.MatchPrediction.create({
                 matchId: req.body.id,
                 GameweekPredictionId: req.body.GameweekPredictionId,
+                homeTeamName: req.body.homeTeam.name,
+                awayTeamName: req.body.awayTeam.name,
                 homeTeamScore: req.body.prediction.homeTeamScore,
                 awayTeamScore: req.body.prediction.awayTeamScore,
                 isResolved: false,
@@ -240,6 +242,26 @@ app.post('/gameweekPredictions', async(req, res) => {
             ],
         })
         res.send({gameweekPredictions: gameweekPredictions})
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+app.post('/userPredictions', async(req, res) => {
+    try {
+        const userPredictions = await db.GameweekPrediction.findAll({
+            where: {
+                UserId: req.body.id
+            },
+            include: [
+                {
+                    model: db.MatchPrediction,
+                    as: 'matchPredictions'
+                }
+            ]
+        })
+        if (userPredictions) { res.send({userPredictions: userPredictions}) }
+        else { res.send({userPredictions: null }) }
     } catch (error) {
         console.log(error)
     }

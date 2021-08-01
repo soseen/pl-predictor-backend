@@ -5,6 +5,16 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             unique: false
         },
+        homeTeamName: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            unique: false
+        },
+        awayTeamName: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            unique: false
+        },
         homeTeamScore: {
             type: DataTypes.INTEGER,
             allowNull: true,
