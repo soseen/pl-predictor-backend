@@ -43,8 +43,6 @@ app.post('/userCreate', async (req, res) => {
 
     try {
         const salt = await bcrypt.genSalt();
-        console.log(salt)
-        console.log(req.body)
         const hashedPassword = await bcrypt.hash(password, salt)
         await db.User.create({
             username: username,
@@ -173,7 +171,8 @@ app.post('/prediction', async (req, res) => {
                 awayTeamScore: req.body.prediction.awayTeamScore,
                 isResolved: false,
                 isCorrectScore: false,
-                isExactScore: false
+                isExactScore: false,
+                isBoosted: req.body.isBoosted
             })
             res.send({prediction: newPrediction})
         }
@@ -262,6 +261,28 @@ app.post('/userPredictions', async(req, res) => {
         })
         if (userPredictions) { res.send({userPredictions: userPredictions}) }
         else { res.send({userPredictions: null }) }
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+app.post('/userGameweek', async(req, res) => {
+    try {
+        const userGameweek = await db.GameweekPrediction.findOne({
+            where: {
+                gameweek: req.body.gameweek,
+                seasonId: req.body.seasonId,
+                UserId: req.body.UserId
+            },
+            include: [
+                {
+                    model: db.MatchPrediction,
+                    as: 'matchPredictions',
+                }
+            ],
+        })
+        if (userGameweek) { res.send({gameweek: userGameweek}) }
+        else { res.send({gameweek: null }) }
     } catch (error) {
         console.log(error)
     }

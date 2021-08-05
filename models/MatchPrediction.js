@@ -5,6 +5,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             unique: false
         },
+        points: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            unique: false
+        },
         homeTeamName: {
             type: DataTypes.STRING,
             allowNull: true,
@@ -36,6 +41,11 @@ module.exports = (sequelize, DataTypes) => {
             unique: false
         },
         isExactScore: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+            unique: false
+        },
+        isBoosted: {
             type: DataTypes.BOOLEAN,
             allowNull: true,
             unique: false
