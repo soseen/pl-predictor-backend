@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
+const { Op } = require("sequelize");
 const app = express();
 
 const SERVER_PORT = 4000;
@@ -227,12 +228,9 @@ app.put('/user', async (req, res) => {
 })
 
 
-app.post('/gameweekPredictions', async(req, res) => {
+app.get('/gameweekPredictions', async(req, res) => {
     try {
         const gameweekPredictions = await db.GameweekPrediction.findAll({
-            where: {
-                gameweek: req.body.gameweek
-            },
             include: [
                 {
                     model: db.MatchPrediction,
@@ -242,6 +240,7 @@ app.post('/gameweekPredictions', async(req, res) => {
         })
         res.send({gameweekPredictions: gameweekPredictions})
     } catch (error) {
+        res.send({gameweekPredictions: null})
         console.log(error)
     }
 })
