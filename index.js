@@ -200,6 +200,7 @@ app.put('/prediction', async (req, res) => {
                 isExactScore: req.body.isExactScore,
                 isCorrectScore: req.body.isCorrectScore,
                 isResolved: req.body.isResolved,
+                points: req.body.points
             })
             res.send({prediction: prediction})
         }
