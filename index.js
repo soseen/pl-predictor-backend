@@ -170,6 +170,7 @@ app.post('/prediction', async (req, res) => {
                 awayTeamName: req.body.awayTeam.name,
                 homeTeamScore: req.body.prediction.homeTeamScore,
                 awayTeamScore: req.body.prediction.awayTeamScore,
+                points: 0,
                 isResolved: false,
                 isCorrectScore: false,
                 isExactScore: false,
