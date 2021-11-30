@@ -186,6 +186,24 @@ app.post('/prediction', async (req, res) => {
     }
 })
 
+
+app.delete('/prediction', async (req, res) => {
+    try {
+        const predictionToDelete = await db.MatchPrediction.findOne({
+            where: {
+                id: req.body.id,
+            }
+        })
+        console.log(req.body);
+        if (predictionToDelete) {
+            await predictionToUpdate.destroy();
+            res.send("Successfully deleted");
+        }
+    } catch (error) {
+        console.log(error);
+    }
+})
+
 app.put('/prediction', async (req, res) => {
     try {
         const predictionToUpdate = await db.MatchPrediction.findOne({
